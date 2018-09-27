@@ -1,13 +1,11 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
-import { jsdom } from 'jsdom';
 import sinon from 'sinon';
 
 import Chart, { Chart as ChartConstructor } from '../../src/index';
 
 const noop = () => {};
-const createDOM = () => jsdom('<!doctype html><html><body><div></div></body></html>');
 
 describe('<Chart />', () => {
   let DOM;
@@ -37,11 +35,11 @@ describe('<Chart />', () => {
 
   const mountComponent = props => mount(
       <Chart data={data} {...props} />,
-      { attachTo: DOM.body.firstChild }
+      { attachTo: document.body.firstChild }
   );
 
   beforeEach(() => {
-    DOM = createDOM();
+    // DOM = createDOM();
   });
 
   it('renders', () => {

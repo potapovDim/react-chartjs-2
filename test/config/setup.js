@@ -1,15 +1,16 @@
 require('babel-register')();
 
-var canvas;
-try{ 
-canvas = require('canvas');
+let canvas;
+try {
+  canvas = require('canvas');
 }
-catch(e){
-	canvas = require('canvas-prebuilt');
-} 
+catch(e) {
+  canvas = require('canvas-prebuilt');
+}
 
-const jsdom = require('jsdom');
-const document = jsdom.jsdom();
+const JSDOM = require('jsdom').JSDOM;
+const jsdom = new JSDOM('<!doctype html><html><body><div></div></body></html>', {url: 'http://localhost/'});
+const document = jsdom.window.document;
 const window = document.defaultView;
 
 const canvasMethods = [
@@ -17,7 +18,7 @@ const canvasMethods = [
 ];
 
 Object.keys(window).forEach(property => {
-  if (typeof global[property] === 'undefined') {
+  if(typeof global[property] === 'undefined') {
     global[property] = window[property];
   }
 });
@@ -29,5 +30,5 @@ canvasMethods.forEach(method =>
 global['CanvasRenderingContext2D'] = canvas.Context2d;
 
 global.navigator = {
- userAgent: 'node.js'
+  userAgent: 'node.js'
 };
